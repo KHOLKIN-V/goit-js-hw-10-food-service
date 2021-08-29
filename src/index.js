@@ -1,5 +1,12 @@
-import templateMenuFunction from '../src/template-menu.hbs';
-console.log(templateMenuFunction({menu}));
+import menuTemplate from './menu.json';
+import itemsTemplate from '../src/template-menu.hbs';
+
+const jsMenu = document.querySelector('.js-menu');
+const markup = itemsTemplate(menuTemplate);
+jsMenu.insertAdjacentHTML('beforeend', markup);
+
+
+
 
 const toggle = document.querySelector('#theme-switch-toggle');
 const body = document.querySelector('body');
