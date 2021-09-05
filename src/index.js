@@ -15,6 +15,8 @@ const Theme = {
     DARK: 'dark-theme',
 };
 
+body.classList.add(Theme.LIGHT);
+
 body.classList.add(localStorage.getItem('bodyStatus'));
 if (body.classList.contains(Theme.DARK)) {
     toggle.setAttribute('checked', true);
@@ -29,6 +31,7 @@ function onChangeTheme(e) {
 
     body.classList.toggle(Theme.LIGHT);
     body.classList.toggle(Theme.DARK);
+
 
     if (body.classList.contains(Theme.LIGHT)) {
         localStorage.setItem('bodyStatus', Theme.LIGHT);
