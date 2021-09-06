@@ -17,27 +17,33 @@ const Theme = {
 
 body.classList.add(Theme.LIGHT);
 
-body.classList.add(localStorage.getItem('bodyStatus'));
-if (body.classList.contains(Theme.DARK)) {
+if (localStorage.getItem('bodyStatus') === Theme.LIGHT) {
+    body.classList.add(Theme.LIGHT);
+    body.classList.remove(Theme.DARK);
+    toggle.setAttribute('checked', false);
+} else if (localStorage.getItem('bodyStatus') === Theme.DARK) {
+    body.classList.add(Theme.DARK);
+    body.classList.remove(Theme.LIGHT);
     toggle.setAttribute('checked', true);
 };
+
+
 
 toggle.addEventListener('change', onChangeTheme);
 
 function onChangeTheme(e) {
-        if(e.target.nodeName != 'INPUT') {
-            return;
-        };
-
-    body.classList.toggle(Theme.LIGHT);
-    body.classList.toggle(Theme.DARK);
-
-
-    if (body.classList.contains(Theme.LIGHT)) {
+    if(e.target.nodeName != 'INPUT') {
+        return;
+    };
+    if (toggle.getAttribute('checked')) {
+        toggle.removeAttribute('checked');
         localStorage.setItem('bodyStatus', Theme.LIGHT);
-        toggle.setAttribute('checked', false);
-    } else if (body.classList.contains(Theme.DARK)) {
-        localStorage.setItem('bodyStatus', Theme.DARK);
+        body.classList.add(Theme.LIGHT);
+        body.classList.remove(Theme.DARK);
+    } else {
         toggle.setAttribute('checked', true);
-    } 
+        localStorage.setItem('bodyStatus', Theme.DARK);
+        body.classList.add(Theme.DARK);
+        body.classList.remove(Theme.LIGHT);
+    }
 };
