@@ -1,49 +1,43 @@
-import menuTemplate from './menu.json';
-import itemsTemplate from '../src/template-menu.hbs';
+const COLOR_DELAY = 1000;
+const colors = [
+    '#FFFFFF',
+    '#2196F3',
+    '#4CAF50',
+    '#FF9800',
+    '#009688',
+    '#795548',
+  ];
+const bodyBgc = document.querySelector('body');
+const startColor = document.querySelector('button[data-action = "start"]');
+const stopColor = document.querySelector('button[data-action = "stop"]');
 
-const jsMenu = document.querySelector('.js-menu');
-const markup = itemsTemplate(menuTemplate);
+startColor.addEventListener('click', () => {
+    colorChange.start();
+});
+stopColor.addEventListener('click', () => {
+    colorChange.stop();
+});
 
-
-jsMenu.insertAdjacentHTML('beforeend', markup);
-
-const toggle = document.querySelector('#theme-switch-toggle');
-const body = document.querySelector('body');
-
-const Theme = {
-    LIGHT: 'light-theme',
-    DARK: 'dark-theme',
-};
-
-body.classList.add(Theme.LIGHT);
-
-if (localStorage.getItem('bodyStatus') === Theme.LIGHT) {
-    body.classList.add(Theme.LIGHT);
-    body.classList.remove(Theme.DARK);
-    toggle.setAttribute('checked', false);
-} else if (localStorage.getItem('bodyStatus') === Theme.DARK) {
-    body.classList.add(Theme.DARK);
-    body.classList.remove(Theme.LIGHT);
-    toggle.setAttribute('checked', true);
-};
-
-
-
-toggle.addEventListener('change', onChangeTheme);
-
-function onChangeTheme(e) {
-    if(e.target.nodeName != 'INPUT') {
-        return;
-    };
-    if (toggle.getAttribute('checked')) {
-        toggle.removeAttribute('checked');
-        localStorage.setItem('bodyStatus', Theme.LIGHT);
-        body.classList.add(Theme.LIGHT);
-        body.classList.remove(Theme.DARK);
-    } else {
-        toggle.setAttribute('checked', true);
-        localStorage.setItem('bodyStatus', Theme.DARK);
-        body.classList.add(Theme.DARK);
-        body.classList.remove(Theme.LIGHT);
+const colorChange = {
+    intervalID: null,
+    isActive: false,
+    start() { 
+        if (this.isActive) {
+            return;
+        };
+        this.isActive = true;
+        this.intervalID = setInterval(() => {
+            const rand = Math.floor(Math.random() * colors.length);
+            bodyBgc.setAttribute('style', `background-color: ${colors[rand]}`);
+            console.log(colors[rand]);
+        }, COLOR_DELAY);
+    },
+    stop() {
+        clearInterval(this.intervalID);
+        this.isActive = false;
     }
 };
+
+
+
+
